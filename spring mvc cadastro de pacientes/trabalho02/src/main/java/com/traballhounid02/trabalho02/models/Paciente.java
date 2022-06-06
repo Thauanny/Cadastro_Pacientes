@@ -6,8 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.traballhounid02.trabalho02.utils.Util;
-
 @Entity
 public class Paciente {
     @Id
@@ -23,16 +21,6 @@ public class Paciente {
     private String situation;
 
     public Paciente() {
-        String[] arr = { "Emergencia", "Muito Urgente", "Urgente", "Pouco Urgente", "Não urgente" };
-        int rnd = Util.faker().random().nextInt(arr.length);
-        String symptoms = Util.faker().medical().symptoms();
-        int age = Util.faker().number().numberBetween(1, 100);
-        String name = Util.faker().name().fullName();
-
-        this.name = name;
-        this.age = Integer.toString(age);
-        this.situation = arr[rnd];
-        this.symptoms = symptoms;
 
     }
     public Long getId() {
