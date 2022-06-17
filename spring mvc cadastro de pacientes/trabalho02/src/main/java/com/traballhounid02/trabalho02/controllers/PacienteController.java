@@ -13,12 +13,13 @@ import com.traballhounid02.trabalho02.models.Paciente;
 import com.traballhounid02.trabalho02.services.PacienteService;
 
 @Controller
+
 public class PacienteController {
 
     @Autowired
     private PacienteService pacienteService;
 
-    @GetMapping(value = "/pacientes")
+    @GetMapping(value = "/cadastro_pacientes")
     public ModelAndView findAll() {
         ModelAndView mv = new ModelAndView("pacientes/index");
         List<Paciente> pacientes = this.pacienteService.findAll();
@@ -27,18 +28,18 @@ public class PacienteController {
 
     }
 
-    @GetMapping(value = "/pacientes/new")
+    @GetMapping(value = "/cadastro_pacientes/new")
     public String newPacient() {
 
         return "pacientes/new";
 
     }
 
-    @PostMapping(value = "/pacientes")
+    @PostMapping(value = "/cadastro_pacientes")
     public String create(RequestNewPacientDTO req) {
         Paciente paciente = req.toPaciente();
         this.pacienteService.save(paciente);
-        return "redirect:/pacientes";
+        return "redirect:/cadastro_pacientes";
     }
 
 }
