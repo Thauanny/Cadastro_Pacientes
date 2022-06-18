@@ -20,7 +20,7 @@ public class PacienteController {
     @Autowired  
     private PacienteService pacienteService;
 
-    @GetMapping(path  = "/pacientes")
+    @GetMapping(path  = "/cadastro_pacientes")
     public String findAll(final Model model) {
 
         IReactiveDataDriverContextVariable reactiveDataDrivenMode =
@@ -31,18 +31,18 @@ public class PacienteController {
         return "pacientes/index";
     }
 
-    @GetMapping(value = "/pacientes/new")
+    @GetMapping(value = "/cadastro_pacientes/new")
     public String newPacient() {
 
         return "pacientes/new";
 
     }
 
-    @PostMapping(value = "/pacientes")
+    @PostMapping(value = "/cadastro_pacientes")
     public String create(RequestNewPacientDTO req) {
         Paciente paciente = req.toPaciente();
         this.pacienteService.save(paciente);
-        return "redirect:/pacientes";
+        return "redirect:http://localhost:9000/CADASTROPACIENTESWEBFLUX/cadastro_pacientes";
     }
 
 }

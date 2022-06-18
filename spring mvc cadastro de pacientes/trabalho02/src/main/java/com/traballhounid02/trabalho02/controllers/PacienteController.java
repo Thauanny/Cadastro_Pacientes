@@ -39,7 +39,7 @@ public class PacienteController {
     public String create(RequestNewPacientDTO req) {
         Paciente paciente = req.toPaciente();
         this.pacienteService.save(paciente);
-        return "redirect:/cadastro_pacientes";
+        return "redirect:http://localhost:9000/CADASTROPACIENTES/cadastro_pacientes";
     }
 
 }
