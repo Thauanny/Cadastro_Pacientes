@@ -11,7 +11,6 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @EnableEurekaClient
 public class Trabalho02ApplicationMVC {
 	@LoadBalanced
-
 	public static void main(String[] args) {
 		SpringApplication.run(Trabalho02ApplicationMVC.class, args);
 	}
