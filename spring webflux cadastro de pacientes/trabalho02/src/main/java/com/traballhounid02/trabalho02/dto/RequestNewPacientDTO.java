@@ -1,7 +1,9 @@
 package com.traballhounid02.trabalho02.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.traballhounid02.trabalho02.models.Paciente;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class RequestNewPacientDTO {
     private String name;
     private String age;
