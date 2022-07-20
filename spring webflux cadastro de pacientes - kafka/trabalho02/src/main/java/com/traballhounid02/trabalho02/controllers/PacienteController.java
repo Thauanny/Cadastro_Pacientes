@@ -4,14 +4,16 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import com.traballhounid02.trabalho02.config.KafKaProducerService;
 import com.traballhounid02.trabalho02.dto.RequestNewPacientDTO;
 import com.traballhounid02.trabalho02.models.Paciente;
 import com.traballhounid02.trabalho02.services.PacienteService;
@@ -26,8 +28,14 @@ public class PacienteController {
     @Autowired
     private PacienteService pacienteService;
     @Autowired
-    private KafkaTemplate<String, Paciente> kafka;
-    private final String KAFKA_TOPIC = "reception";
+    private final KafKaProducerService producerService;
+
+    
+	@Autowired
+	public PacienteController(KafKaProducerService producerService)
+	{
+		this.producerService = producerService;
+	}
 
     @GetMapping(path = "/pacientes")
     public Flux<Paciente> findAll() {
@@ -45,19 +53,15 @@ public class PacienteController {
     @GetMapping(path = "/emergencias")
     @CircuitBreaker(name = "cadastroPacientesCB", fallbackMethod = "erroPageDefault")
     public Flux<Paciente> emergencias() {
-        Flux<Paciente> response = WebClient.create()
+       return WebClient.create()
                 .get().uri("http://localhost:9000/EMERGENCIASSERVICE/emergencias/").accept(MediaType.APPLICATION_JSON)
                 .retrieve().bodyToFlux(Paciente.class)
                 .doOnError(ex -> {
                     throw new RuntimeException("the exception message is - " + ex.getMessage());
                 });
 
-        response.subscribe(a -> {
-            kafka.send(KAFKA_TOPIC, a);
-            System.out.println("ENVIO DE MENSAGEM: " + a);
-        });
+        
 
-        return response;
 
     }
 
@@ -71,6 +75,12 @@ public class PacienteController {
     });
 
     }
+
+    @PostMapping(value = "/publish")
+	public void sendMessageToKafkaTopic(@RequestParam("message") String message)
+	{
+		this.producerService.sendMessage(message);
+	}
 
     public Flux<Paciente> erroPageDefault(Throwable e) {
         System.out.println("CIRCUIT BREAKERRRR");
