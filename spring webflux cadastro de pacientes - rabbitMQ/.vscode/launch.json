@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Trabalho02Application",
+            "request": "launch",
+            "mainClass": "com.traballhounid02.trabalho02.Trabalho02Application",
+            "projectName": "cadastro_pacientes"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -16,7 +23,7 @@
             "request": "launch",
             "mainClass": "com.traballhounid02.trabalho02.Trabalho02Application",
             "projectName": "trabalho02",
-            "args": "--spring.profiles.active=dev",   
+            "args": "--spring.profiles.active=dev",
             "vmArgs": "-Dspring.profiles.active=dev"
         }
     ]
